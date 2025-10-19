@@ -1,36 +1,88 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>539 編輯器</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>9宮格輸入</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    .date {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    .display {
+      font-size: 28px;
+      height: 40px;
+      margin-bottom: 20px;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(4, 100px);
+      gap: 12px;
+      justify-content: center;
+    }
+    .btn {
+      font-size: 26px;
+      cursor: pointer;
+      border: 1px solid #555;
+      border-radius: 8px;
+      background: #f2f2f2;
+    }
+    .btn:active {
+      background: #ccc;
+    }
+  </style>
 </head>
 <body>
+  <!-- 固定日期 -->
+  <div class="date">日期：2025-09-25</div>
 
-  <h3>3×3 編輯器（01–39）</h3>
-  <div class="grid" id="editor"></div>
-  <button id="clearBtn">清除全部</button>
-  <div id="numpad"></div>
+  <!-- 顯示區 -->
+  <div class="display" id="output"></div>
 
-  <div id="controls">
-    <label>起始日期：
-      <input type="date" id="startDate">
-    </label>
-    <button id="filterBtn">查詢</button>
-    <button id="showAllBtn">顯示全部</button>
+  <!-- 按鈕 -->
+  <div class="grid">
+    <button class="btn">1</button>
+    <button class="btn">2</button>
+    <button class="btn">3</button>
+    <button class="btn">4</button>
+    <button class="btn">5</button>
+    <button class="btn">6</button>
+    <button class="btn">7</button>
+    <button class="btn">8</button>
+    <button class="btn">9</button>
+    <button class="btn">0</button>
+    <button class="btn">X</button>
+    <button class="btn">Y</button>
   </div>
 
-  <h3>開獎資料（把你的 &lt;tr&gt;... 貼在 &lt;tbody&gt;）</h3>
-  <table id="draws">
-    <thead>
-      <tr><th>日期</th><th>星期</th><th colspan="5">號碼</th></tr>
-    </thead>
-    <tbody>
-      <!-- 把資料貼在這裡 (每行 <tr>...</tr>) -->
-    </tbody>
-  </table>
+  <script>
+    const output = document.getElementById("output");
+    const buttons = document.querySelectorAll(".btn");
 
-  <script src="script.js"></script>
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const val = btn.textContent;
+        if (val === "X") {
+          // 刪掉最後一個字
+          output.textContent = output.textContent.slice(0, -1);
+        } else if (val === "Y") {
+          // 確認
+          alert("確認號碼：" + output.textContent);
+        } else {
+          // 輸入數字
+          output.textContent += val;
+        }
+      });
+    });
+  </script>
 </body>
 </html>
