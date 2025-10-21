@@ -1,75 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>539 月份開獎號碼</title>
-<style>
-body { font-family:"Microsoft JhengHei",sans-serif; margin:0; padding:10px; background:#f4f4f4;}
-.container { max-width:520px; margin:auto; }
-table { width:100%; border-collapse:collapse; margin-top:10px; }
-th,td { border:1px solid #aaa; padding:6px; text-align:center; font-size:16px; }
-th { background:#eee; font-weight:bold; }
-select { font-size:16px; padding:4px 8px; }
-.circle { display:inline-block; width:30px; height:30px; line-height:30px; border-radius:50%; border:1px solid black; text-align:center; margin:1px; font-weight:bold; background:white; }
-</style>
+  <meta charset="utf-8">
+  <title>載入 data.html</title>
 </head>
 <body>
+  <h3>這是 index.html</h3>
+  <div id="dataArea">載入中...</div>
 
-<div class="container">
-  <h2>539 月份開獎號碼</h2>
-  <label for="monthSelect">選擇月份:</label>
-  <input type="month" id="monthSelect" value="2025-10">
-  <table id="resultTable">
-    <thead>
-      <tr><th>日期</th><th>星期</th><th>號1</th><th>號2</th><th>號3</th><th>號4</th><th>號5</th></tr>
-    </thead>
-    <tbody>
-      <!-- 資料填充 -->
-    </tbody>
-  </table>
-</div>
-
-<script>
-// 讀取 data20142025.html 的 table
-fetch('data20142025.html')
-.then(resp=>resp.text())
-.then(htmlText=>{
-  const parser=new DOMParser();
-  const doc=parser.parseFromString(htmlText,'text/html');
-  const rows=doc.querySelectorAll('tr');
-  let data=[];
-  rows.forEach(tr=>{
-    const tds=tr.querySelectorAll('td');
-    if(tds.length===7){ // 日期+星期+5號碼
-      const item={
-        date: tds[0].textContent.trim(),
-        week: tds[1].textContent.trim(),
-        nums: Array.from(tds).slice(2).map(td=>td.textContent.trim())
-      };
-      data.push(item);
-    }
-  });
-
-  const tableBody=document.querySelector('#resultTable tbody');
-  const monthInput=document.querySelector('#monthSelect');
-
-  function renderMonth(monthStr){
-    tableBody.innerHTML='';
-    data.filter(d=>d.date.startsWith(monthStr)).forEach(d=>{
-      const tr=document.createElement('tr');
-      tr.innerHTML=`<td>${d.date}</td><td>${d.week}</td>`+
-                   d.nums.map(n=>`<td><span class="circle">${n}</span></td>`).join('');
-      tableBody.appendChild(tr);
-    });
-  }
-
-  renderMonth(monthInput.value);
-
-  monthInput.addEventListener('change',()=>{ renderMonth(monthInput.value); });
-})
-.catch(err=>console.error('讀取資料失敗:',err));
-</script>
-
+  <script>
+    fetch('data.html')
+      .then(r => r.text())
+      .then(html => document.getElementById('dataArea').innerHTML = html)
+      .catch(err => document.getElementById('dataArea').textContent = '載入失敗：' + err);
+  </script>
 </body>
 </html>
